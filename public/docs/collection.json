@@ -1,0 +1,636 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "s-biotech-router.comprehend.ibm.com"
+        }
+    ],
+    "info": {
+        "name": "Biotech Router",
+        "_postman_id": "5f0a8750-406c-430f-9e9b-39629df6fbb5",
+        "description": "A Lumen-based miscroservice for interaction with third-party vendor applications.",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get a JWT via given credentials.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "auth",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/auth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"quia\",\"password\":\"necessitatibus\"}"
+                        },
+                        "description": "Obtain a bearer token to use for authenticating future requests using an e-mail\/password combo.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n     \"data\": {\n                \"access_token\": \"{YOUR_AUTH_KEY}\",\n                \"token_type\": \"bearer\",\n                \"expires_in\": 3600\n             }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Domoscio Hub",
+            "description": "",
+            "item": [
+                {
+                    "name": "Create an event in Domoscio Hub.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "domoscio\/event",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/domoscio\/event"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"student_uid\":\"aut\",\"student_email\":\"omnis\",\"student_firstname\":\"quia\",\"student_lastname\":\"cumque\",\"activity\":\"et\",\"activity_url\":\"aut\",\"domoscio_content_uid\":\"aut\"}"
+                        },
+                        "description": "Obtain information for completed resource from CLMS and create an EventResult event in Domoscio Hub\nfor the current student.\n<aside class=\"notice\">This endpoint will automatically create a Domoscio Hub student using the given credentials if one has not already been created.<\/aside>"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"data\": {\n      \"id\": 677389,\n      \"event_type\": \"EventResult\",\n      \"payload\": \"payload\",\n      \"created_at\": \"2021-08-05T18:49:32.531Z\",\n      \"updated_at\": \"2021-08-05T18:49:32.531Z\",\n      \"student_id\": 27425,\n      \"content_id\": 20241,\n      \"feedback_error_id\": null,\n      \"generated_at\": \"2021-08-05T18:49:32.531Z\",\n      \"return\": false,\n      \"standard\": null,\n      \"time_spent\": null,\n      \"status\": 201\n   }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"The given data was invalid\",\n     \"status\": 422,\n     \"details\": {\n        \"form-data-key\": \"error message\"\n     }\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 400,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"details\": \"details\",\n     \"status\": 400,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"No statements found for this actor\",\n     \"status\": 404,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 503,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Service unavailable\",\n     \"status\": 503,\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "DreamCask",
+            "description": "",
+            "item": [
+                {
+                    "name": "Emit a cmi5 statement to the LRS.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "dreamcask\/emit",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/dreamcask\/emit"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"payload\":\"perspiciatis\"}"
+                        },
+                        "description": "Forward a statement to the LRS.\n<aside class=\"notice\">The statement needs to follow the cmi5 specification.<\/aside>"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"Successfully forwarded to LRS\",\n  \"status\": 200\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"The given data was invalid\",\n     \"status\": 422,\n     \"details\": {\n        \"form-data-key\": \"error message\"\n     }\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 400,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"details\": \"details\",\n     \"status\": 400,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 503,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Service unavailable\",\n     \"status\": 503,\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get an existing activity state.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "dreamcask\/state",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/dreamcask\/state",
+                            "variable": [
+                                {
+                                    "id": "state_id",
+                                    "key": "state_id",
+                                    "value": "quasi",
+                                    "description": "State ID in the LRS"
+                                },
+                                {
+                                    "id": "activity_id",
+                                    "key": "activity_id",
+                                    "value": "vitae",
+                                    "description": "Activity ID (typically a URL)"
+                                },
+                                {
+                                    "id": "activity_name",
+                                    "key": "activity_name",
+                                    "value": "odit",
+                                    "description": "Activity name"
+                                },
+                                {
+                                    "id": "email",
+                                    "key": "email",
+                                    "value": "consequatur",
+                                    "description": "User email"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Obtain an activity state from the LRS."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"Success\",\n  \"payload\": \"payload\",\n  \"status\": 200\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Resource not found\",\n     \"status\": 404,\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update an existing activity state, or create a new one.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "dreamcask\/state",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/dreamcask\/state"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"state_id\":\"ullam\",\"activity_name\":\"quis\",\"activity_id\":\"sit\",\"email\":\"tenetur\",\"registration\":\"tempora\",\"payload\":\"omnis\"}"
+                        },
+                        "description": "Save an activity state in the LRS."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"Successfully forwarded to LRS\",\n  \"status\": 200\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unprocessable entity\",\n     \"status\": 422,\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "\/",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "\/",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/\/"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"name\":\"Lumen\",\"version\":\"0.0.1\",\"framework\":\"Lumen (8.2.4) (Laravel Components ^8.0)\",\"environment\":\"documentation\",\"debug_mode\":true,\"timestamp\":\"2021-11-11 13:30:42\",\"timezone\":\"UTC\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Microsoft Dynamics",
+            "description": "\nThis group of APIs communicates with Microsoft Dynamics APIs.",
+            "item": [
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "msdynamics",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/msdynamics"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "www-authenticate",
+                                    "value": "Bearer realm=http:\/\/127.0.0.1:8000"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"error\":{\"message\":\"Unauthorized\",\"status\":401,\"debug\":{\"exception\":\"App\\\\Exceptions\\\\UnauthorizedException\",\"trace\":[\"#0 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/pipeline\\\/Pipeline.php(167): App\\\\Http\\\\Middleware\\\\Authenticate->handle(Object(Illuminate\\\\Http\\\\Request), Object(Closure), 'api')\",\"#1 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Routing\\\/Pipeline.php(30): Illuminate\\\\Pipeline\\\\Pipeline->Illuminate\\\\Pipeline\\\\{closure}(Object(Illuminate\\\\Http\\\\Request))\",\"#2 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/pipeline\\\/Pipeline.php(103): Laravel\\\\Lumen\\\\Routing\\\\Pipeline->Laravel\\\\Lumen\\\\Routing\\\\{closure}(Object(Illuminate\\\\Http\\\\Request))\",\"#3 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Concerns\\\/RoutesRequests.php(426): Illuminate\\\\Pipeline\\\\Pipeline->then(Object(Closure))\",\"#4 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Concerns\\\/RoutesRequests.php(263): Laravel\\\\Lumen\\\\Application->sendThroughPipeline(Array, Object(Closure))\",\"#5 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Concerns\\\/RoutesRequests.php(169): Laravel\\\\Lumen\\\\Application->handleFoundRoute(Array)\",\"#6 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Routing\\\/Pipeline.php(48): Laravel\\\\Lumen\\\\Application->Laravel\\\\Lumen\\\\Concerns\\\\{closure}(Object(Illuminate\\\\Http\\\\Request))\",\"#7 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/fruitcake\\\/laravel-cors\\\/src\\\/HandleCors.php(38): Laravel\\\\Lumen\\\\Routing\\\\Pipeline->Laravel\\\\Lumen\\\\Routing\\\\{closure}(Object(Illuminate\\\\Http\\\\Request))\",\"#8 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/pipeline\\\/Pipeline.php(167): Fruitcake\\\\Cors\\\\HandleCors->handle(Object(Illuminate\\\\Http\\\\Request), Object(Closure))\",\"#9 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Routing\\\/Pipeline.php(30): Illuminate\\\\Pipeline\\\\Pipeline->Illuminate\\\\Pipeline\\\\{closure}(Object(Illuminate\\\\Http\\\\Request))\",\"#10 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/pipeline\\\/Pipeline.php(103): Laravel\\\\Lumen\\\\Routing\\\\Pipeline->Laravel\\\\Lumen\\\\Routing\\\\{closure}(Object(Illuminate\\\\Http\\\\Request))\",\"#11 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Concerns\\\/RoutesRequests.php(426): Illuminate\\\\Pipeline\\\\Pipeline->then(Object(Closure))\",\"#12 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Concerns\\\/RoutesRequests.php(175): Laravel\\\\Lumen\\\\Application->sendThroughPipeline(Array, Object(Closure))\",\"#13 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Concerns\\\/RoutesRequests.php(95): Laravel\\\\Lumen\\\\Application->dispatch(Object(Illuminate\\\\Http\\\\Request))\",\"#14 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/Extracting\\\/Strategies\\\/Responses\\\/ResponseCalls.php(308): Laravel\\\\Lumen\\\\Application->handle(Object(Illuminate\\\\Http\\\\Request))\",\"#15 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/Extracting\\\/Strategies\\\/Responses\\\/ResponseCalls.php(287): Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls->callLaravelOrLumenRoute(Object(Illuminate\\\\Http\\\\Request))\",\"#16 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/Extracting\\\/Strategies\\\/Responses\\\/ResponseCalls.php(89): Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls->makeApiCall(Object(Illuminate\\\\Http\\\\Request), Object(Knuckles\\\\Scribe\\\\Matching\\\\LumenRouteAdapter))\",\"#17 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/Extracting\\\/Strategies\\\/Responses\\\/ResponseCalls.php(45): Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls->makeResponseCall(Object(Knuckles\\\\Camel\\\\Extraction\\\\ExtractedEndpointData), Array)\",\"#18 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/Extracting\\\/Strategies\\\/Responses\\\/ResponseCalls.php(35): Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls->makeResponseCallIfConditionsPass(Object(Knuckles\\\\Camel\\\\Extraction\\\\ExtractedEndpointData), Array)\",\"#19 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/Extracting\\\/Extractor.php(222): Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls->__invoke(Object(Knuckles\\\\Camel\\\\Extraction\\\\ExtractedEndpointData), Array)\",\"#20 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/Extracting\\\/Extractor.php(179): Knuckles\\\\Scribe\\\\Extracting\\\\Extractor->iterateThroughStrategies('responses', Object(Knuckles\\\\Camel\\\\Extraction\\\\ExtractedEndpointData), Array, Object(Closure))\",\"#21 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/Extracting\\\/Extractor.php(116): Knuckles\\\\Scribe\\\\Extracting\\\\Extractor->fetchResponses(Object(Knuckles\\\\Camel\\\\Extraction\\\\ExtractedEndpointData), Array)\",\"#22 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/GroupedEndpoints\\\/GroupedEndpointsFromApp.php(118): Knuckles\\\\Scribe\\\\Extracting\\\\Extractor->processRoute(Object(Knuckles\\\\Scribe\\\\Matching\\\\LumenRouteAdapter), Array)\",\"#23 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/GroupedEndpoints\\\/GroupedEndpointsFromApp.php(75): Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp->extractEndpointsInfoFromLaravelApp(Array, Array, Array, Array)\",\"#24 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/GroupedEndpoints\\\/GroupedEndpointsFromApp.php(51): Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp->extractEndpointsInfoAndWriteToDisk(Object(Knuckles\\\\Scribe\\\\Matching\\\\RouteMatcher), true)\",\"#25 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/knuckleswtf\\\/scribe\\\/src\\\/Commands\\\/GenerateDocumentation.php(46): Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp->get()\",\"#26 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/container\\\/BoundMethod.php(36): Knuckles\\\\Scribe\\\\Commands\\\\GenerateDocumentation->handle(Object(Knuckles\\\\Scribe\\\\Matching\\\\RouteMatcher), Object(Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFactory))\",\"#27 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/container\\\/Util.php(40): Illuminate\\\\Container\\\\BoundMethod::Illuminate\\\\Container\\\\{closure}()\",\"#28 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/container\\\/BoundMethod.php(93): Illuminate\\\\Container\\\\Util::unwrapIfClosure(Object(Closure))\",\"#29 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/container\\\/BoundMethod.php(37): Illuminate\\\\Container\\\\BoundMethod::callBoundMethod(Object(Laravel\\\\Lumen\\\\Application), Array, Object(Closure))\",\"#30 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/container\\\/Container.php(653): Illuminate\\\\Container\\\\BoundMethod::call(Object(Laravel\\\\Lumen\\\\Application), Array, Array, NULL)\",\"#31 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/console\\\/Command.php(136): Illuminate\\\\Container\\\\Container->call(Array)\",\"#32 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/symfony\\\/console\\\/Command\\\/Command.php(299): Illuminate\\\\Console\\\\Command->execute(Object(Symfony\\\\Component\\\\Console\\\\Input\\\\ArgvInput), Object(Illuminate\\\\Console\\\\OutputStyle))\",\"#33 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/console\\\/Command.php(121): Symfony\\\\Component\\\\Console\\\\Command\\\\Command->run(Object(Symfony\\\\Component\\\\Console\\\\Input\\\\ArgvInput), Object(Illuminate\\\\Console\\\\OutputStyle))\",\"#34 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/symfony\\\/console\\\/Application.php(978): Illuminate\\\\Console\\\\Command->run(Object(Symfony\\\\Component\\\\Console\\\\Input\\\\ArgvInput), Object(Symfony\\\\Component\\\\Console\\\\Output\\\\ConsoleOutput))\",\"#35 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/symfony\\\/console\\\/Application.php(295): Symfony\\\\Component\\\\Console\\\\Application->doRunCommand(Object(Knuckles\\\\Scribe\\\\Commands\\\\GenerateDocumentation), Object(Symfony\\\\Component\\\\Console\\\\Input\\\\ArgvInput), Object(Symfony\\\\Component\\\\Console\\\\Output\\\\ConsoleOutput))\",\"#36 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/symfony\\\/console\\\/Application.php(167): Symfony\\\\Component\\\\Console\\\\Application->doRun(Object(Symfony\\\\Component\\\\Console\\\\Input\\\\ArgvInput), Object(Symfony\\\\Component\\\\Console\\\\Output\\\\ConsoleOutput))\",\"#37 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/illuminate\\\/console\\\/Application.php(94): Symfony\\\\Component\\\\Console\\\\Application->run(Object(Symfony\\\\Component\\\\Console\\\\Input\\\\ArgvInput), Object(Symfony\\\\Component\\\\Console\\\\Output\\\\ConsoleOutput))\",\"#38 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/vendor\\\/laravel\\\/lumen-framework\\\/src\\\/Console\\\/Kernel.php(116): Illuminate\\\\Console\\\\Application->run(Object(Symfony\\\\Component\\\\Console\\\\Input\\\\ArgvInput), Object(Symfony\\\\Component\\\\Console\\\\Output\\\\ConsoleOutput))\",\"#39 \\\/Users\\\/wessamahmed\\\/Documents\\\/Workspace\\\/biotech-router\\\/artisan(35): Laravel\\\\Lumen\\\\Console\\\\Kernel->handle(Object(Symfony\\\\Component\\\\Console\\\\Input\\\\ArgvInput), Object(Symfony\\\\Component\\\\Console\\\\Output\\\\ConsoleOutput))\",\"#40 {main}\"]}}}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Enroll users to a CLMS course.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "msdynamics\/enroll",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/msdynamics\/enroll"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"users\":[{\"username\":\"ullam\",\"oid\":\"ad\",\"apn\":\"itaque\",\"catalog\":12,\"access_duration\":3}]}"
+                        },
+                        "description": "Enroll existing users to a CLMS course using their OID."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"Success\",\n  \"status\": 200,\n  \"data\" : [\n         {\n             \"username\": \"username\",\n             \"oid\": \"oid\",\n             \"catalog\": \"catalog\",\n             \"access_duration\": \"access_duration\",\n             \"status\": \"status message\"\n         }\n   ]\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 400,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"status\": 400,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unprocessable entity\",\n     \"status\": 422,\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Show CLMS catalog tree.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "msdynamics\/list",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/msdynamics\/list",
+                            "variable": [
+                                {
+                                    "id": "array",
+                                    "key": "array",
+                                    "value": "ea",
+                                    "description": "Array of custom fields to retrieve"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Show the catalog hierarchy."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"Success\",\n  \"status\": 200,\n  \"data\" : [\n         {\n             \"id\": \"id\",\n             \"type\": \"type\",\n             \"duration\": \"duration_in_seconds\",\n             \"children\": \"1\",\n             \"custom_fields\": [\n                     \"field1\",\n                     \"field2\"\n             ],\n             \"container\": [\n                     \"id\": \"id\",\n                     \"type\": \"type\",\n                     \"children\": \"0\"\n             ]\n         }\n   ]\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 400,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"status\": 400,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Un-enroll users from a CLMS course.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "msdynamics\/unenroll",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/msdynamics\/unenroll"
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"users\":[{\"username\":\"sint\",\"oid\":\"ex\",\"catalog\":\"natus\"}]}"
+                        },
+                        "description": "Remove users' enrollment from a CLMS course."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"Success\",\n  \"status\": 200,\n  \"data\" : [\n         {\n             \"username\": \"username\",\n             \"oid\": \"oid\",\n             \"catalog\": \"catalog\",\n             \"status\": \"status message\"\n         }\n   ]\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unprocessable entity\",\n     \"status\": 422,\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "User management",
+            "description": "",
+            "item": [
+                {
+                    "name": "Get all users.",
+                    "request": {
+                        "url": {
+                            "protocol": "https",
+                            "host": "{{baseUrl}}",
+                            "path": "users",
+                            "query": [],
+                            "raw": "https:\/\/{{baseUrl}}\/users"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "List all currently registered user accounts."
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"data\": [\n{\n\"id\": 1,\n\"name\": \"Name\",\n\"email\": \"email@example.com\"\n}\n],\n\"meta\": {\n\"pagination\": {\n\"total\": 1,\n\"count\": 1,\n\"per_page\": 20,\n\"current_page\": 1,\n\"total_pages\": 1,\n\"links\": {}\n}\n}\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 401,
+                            "body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer"
+    }
+}

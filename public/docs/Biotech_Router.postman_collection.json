@@ -1,0 +1,851 @@
+{
+	"info": {
+		"_postman_id": "54450f20-36ff-4381-ac88-194c48bc1d36",
+		"name": "Biotech Router",
+		"description": "A Lumen-based miscroservice for interaction with third-party vendor applications.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Get a JWT via given credentials.",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"email\":\"admin@localtest.me\",\"password\":\"password\"}"
+						},
+						"url": {
+							"raw": "https://{{baseUrl}}/auth",
+							"protocol": "https",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth"
+							]
+						},
+						"description": "Obtain a bearer token to use for authenticating future requests using an e-mail/password combo."
+					},
+					"response": [
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"email\":\"admin@localtest.me\",\"password\":\"password\"}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/auth",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth"
+									]
+								},
+								"description": "Obtain a bearer token to use for authenticating future requests using an e-mail/password combo."
+							},
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n     \"data\": {\n                \"access_token\": \"{YOUR_AUTH_KEY}\",\n                \"token_type\": \"bearer\",\n                \"expires_in\": 3600\n             }\n}"
+						},
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"email\":\"admin@localtest.me\",\"password\":\"password\"}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/auth",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth"
+									]
+								},
+								"description": "Obtain a bearer token to use for authenticating future requests using an e-mail/password combo."
+							},
+							"code": 401,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Microsoft Dynamics",
+			"item": [
+				{
+					"name": "Enroll users to a CLMS course.",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zLWJpb3RlY2gtcm91dGVyLmNvbXByZWhlbmQuaWJtLmNvbVwvYXV0aCIsImlhdCI6MTYzNjEzMjEwMiwiZXhwIjoxNjM2MTM1NzAyLCJuYmYiOjE2MzYxMzIxMDIsImp0aSI6IjdTcURNODF3VzZVTVZPczgiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.75qkx-bFaorI339pxY1sdeuriFYlqaYBNsei_o_u5nk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"users\": [\n        {\n            \"username\": \"trainee3-test\",\n            \"oid\": \"b2e5c4c0-1623-4aa1-9d86-d9490182f9f8\",\n            \"apn\": \"trainee3-test@immerscio.com\",\n            \"catalog\": 133,\n            \"access_duration\": 9\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "https://{{baseUrl}}/msdynamics/enroll",
+							"protocol": "https",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"msdynamics",
+								"enroll"
+							]
+						},
+						"description": "Enroll existing users to a CLMS course using their OID."
+					},
+					"response": [
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"users\": [\n        {\n            \"username\": \"Wessam Ahmed\",\n            \"oid\": \"550004e1fx\",\n            \"catalog\": 133,\n            \"access_duration\": 9\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/enroll",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"enroll"
+									]
+								},
+								"description": "Enroll existing users to a CLMS course using their OID."
+							},
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Success\",\n  \"status\": 200,\n  \"data\" : [\n         {\n             \"username\": \"username\",\n             \"oid\": \"oid\",\n             \"catalog\": \"catalog\",\n             \"access_duration\": \"access_duration\",\n             \"status\": \"status message\"\n         }\n   ]\n}"
+						},
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"users\": [\n        {\n            \"username\": \"Wessam Ahmed\",\n            \"oid\": \"550004e1fx\",\n            \"catalog\": 133,\n            \"access_duration\": 9\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/enroll",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"enroll"
+									]
+								},
+								"description": "Enroll existing users to a CLMS course using their OID."
+							},
+							"code": 400,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"status\": 400,\n  }\n}"
+						},
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"users\": [\n        {\n            \"username\": \"Wessam Ahmed\",\n            \"oid\": \"550004e1fx\",\n            \"catalog\": 133,\n            \"access_duration\": 9\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/enroll",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"enroll"
+									]
+								},
+								"description": "Enroll existing users to a CLMS course using their OID."
+							},
+							"code": 401,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+						},
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"users\": [\n        {\n            \"username\": \"Wessam Ahmed\",\n            \"oid\": \"550004e1fx\",\n            \"catalog\": 133,\n            \"access_duration\": 9\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/enroll",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"enroll"
+									]
+								},
+								"description": "Enroll existing users to a CLMS course using their OID."
+							},
+							"code": 422,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\":\n  {\n     \"message\": \"Unprocessable entity\",\n     \"status\": 422,\n  }\n}"
+						},
+						{
+							"name": "Enroll users to a CLMS course.",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"users\": [\n        {\n            \"username\": \"trainee3-test\",\n            \"oid\": \"b2e5c4c0-1623-4aa1-9d86-d9490182f9f8\",\n            \"apn\": \"trainee3-test@immerscio.com\",\n            \"catalog\": 133,\n            \"access_duration\": 9\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/enroll",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"enroll"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Un-enroll users from a CLMS course.",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zLWJpb3RlY2gtcm91dGVyLmNvbXByZWhlbmQuaWJtLmNvbVwvYXV0aCIsImlhdCI6MTYzNjEzMjEwMiwiZXhwIjoxNjM2MTM1NzAyLCJuYmYiOjE2MzYxMzIxMDIsImp0aSI6IjdTcURNODF3VzZVTVZPczgiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.75qkx-bFaorI339pxY1sdeuriFYlqaYBNsei_o_u5nk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"users\": [\n        {\n            \"username\": \"Oreilly\",\n            \"catalog\": 133,\n            \"oid\": \"550004e1fxxxxssgsgssssdss\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "https://{{baseUrl}}/msdynamics/unenroll",
+							"protocol": "https",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"msdynamics",
+								"unenroll"
+							]
+						},
+						"description": "Remove users' enrollment from a CLMS course."
+					},
+					"response": [
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"users\":[{\"username\":\"voluptas\",\"oid\":\"autem\",\"catalog_id\":\"facere\"}]}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/unenroll",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"unenroll"
+									]
+								},
+								"description": "Remove users' enrollment from a CLMS course."
+							},
+							"code": 201,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Successfully processed unenrollment request for N users\",\n  \"status\": 201\n}"
+						},
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"users\":[{\"username\":\"voluptas\",\"oid\":\"autem\",\"catalog_id\":\"facere\"}]}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/unenroll",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"unenroll"
+									]
+								},
+								"description": "Remove users' enrollment from a CLMS course."
+							},
+							"code": 401,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+						},
+						{
+							"name": "response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"users\":[{\"username\":\"voluptas\",\"oid\":\"autem\",\"catalog_id\":\"facere\"}]}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/unenroll",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"unenroll"
+									]
+								},
+								"description": "Remove users' enrollment from a CLMS course."
+							},
+							"code": 422,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\":\n  {\n     \"message\": \"Unprocessable entity\",\n     \"status\": 422,\n  }\n}"
+						},
+						{
+							"name": "Un-enroll users from a CLMS course.",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"users\": [\n        {\n            \"username\": \"trainee3-test\",\n            \"oid\": \"b2e5c4c0-1623-4aa1-9d86-d9490182f9f8\",\n            \"catalog\": 133,\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/unenroll",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"unenroll"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "s-biotech-router.comprehend.ibm.com"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Nov 2021 17:16:36 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Nov 2021 17:16:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.4.22"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"status\": 200,\n    \"data\": [\n        {\n            \"username\": \"Oreilly\",\n            \"catalog\": 133,\n            \"oid\": \"550004e1fxxxxssgsgssssdss\",\n            \"status\": \"Success\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Show CLMS catalog tree.",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zLWJpb3RlY2gtcm91dGVyLmNvbXByZWhlbmQuaWJtLmNvbVwvYXV0aCIsImlhdCI6MTYzNTc4NDY5NCwiZXhwIjoxNjM1Nzg4Mjk0LCJuYmYiOjE2MzU3ODQ2OTQsImp0aSI6IkNlSWJhejEwM1lhTHJrbVEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.ZhqosD8nI2aYTgbNriz7Kveh1_OEJQ4xMFy_2JWUY94",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://{{baseUrl}}/msdynamics/list",
+							"protocol": "https",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"msdynamics",
+								"list"
+							]
+						},
+						"description": "Show the catalog hierarchy."
+					},
+					"response": [
+						{
+							"name": "response",
+							"originalRequest": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zLWJpb3RlY2gtcm91dGVyLmNvbXByZWhlbmQuaWJtLmNvbVwvYXV0aCIsImlhdCI6MTYzNTc4NDY5NCwiZXhwIjoxNjM1Nzg4Mjk0LCJuYmYiOjE2MzU3ODQ2OTQsImp0aSI6IkNlSWJhejEwM1lhTHJrbVEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.ZhqosD8nI2aYTgbNriz7Kveh1_OEJQ4xMFy_2JWUY94",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/list",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"list"
+									]
+								},
+								"description": "Show the catalog hierarchy."
+							},
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Success\",\n  \"status\": 200,\n  \"data\" : [\n         {\n             \"id\": \"id\",\n             \"type\": \"type\",\n             \"children\": \"1\",\n             \"container\": [\n                     \"id\": \"id\",\n                     \"type\": \"type\",\n                     \"children\": \"0\"\n             ]\n         }\n   ]\n}"
+						},
+						{
+							"name": "response",
+							"originalRequest": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zLWJpb3RlY2gtcm91dGVyLmNvbXByZWhlbmQuaWJtLmNvbVwvYXV0aCIsImlhdCI6MTYzNTc4NDY5NCwiZXhwIjoxNjM1Nzg4Mjk0LCJuYmYiOjE2MzU3ODQ2OTQsImp0aSI6IkNlSWJhejEwM1lhTHJrbVEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.ZhqosD8nI2aYTgbNriz7Kveh1_OEJQ4xMFy_2JWUY94",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/list",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"list"
+									]
+								},
+								"description": "Show the catalog hierarchy."
+							},
+							"code": 400,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"status\": 400,\n  }\n}"
+						},
+						{
+							"name": "response",
+							"originalRequest": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zLWJpb3RlY2gtcm91dGVyLmNvbXByZWhlbmQuaWJtLmNvbVwvYXV0aCIsImlhdCI6MTYzNTc4NDY5NCwiZXhwIjoxNjM1Nzg4Mjk0LCJuYmYiOjE2MzU3ODQ2OTQsImp0aSI6IkNlSWJhejEwM1lhTHJrbVEiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.ZhqosD8nI2aYTgbNriz7Kveh1_OEJQ4xMFy_2JWUY94",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/list",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"list"
+									]
+								},
+								"description": "Show the catalog hierarchy."
+							},
+							"code": 401,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+						},
+						{
+							"name": "Show CLMS catalog tree.",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{baseUrl}}/msdynamics/list",
+									"protocol": "https",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"msdynamics",
+										"list"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "s-biotech-router.comprehend.ibm.com"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 02 Nov 2021 15:57:17 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 02 Nov 2021 15:57:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.4.22"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success\",\n    \"status\": 200,\n    \"data\": [\n        {\n            \"id\": 133,\n            \"type\": \"Library Entry\",\n            \"children\": 0\n        },\n        {\n            \"id\": 134,\n            \"type\": \"Library Entry\",\n            \"children\": 0\n        },\n        {\n            \"id\": 135,\n            \"type\": \"Library Entry\",\n            \"children\": 0\n        },\n        {\n            \"id\": 136,\n            \"type\": \"Library Entry\",\n            \"children\": 0\n        },\n        {\n            \"id\": 137,\n            \"type\": \"Library Entry\",\n            \"children\": 0\n        },\n        {\n            \"id\": 138,\n            \"type\": \"Library Entry\",\n            \"children\": 0\n        },\n        {\n            \"id\": 141,\n            \"type\": \"Curriculum II\",\n            \"children\": 2,\n            \"container\": [\n                {\n                    \"id\": 151,\n                    \"type\": \"Program II\",\n                    \"children\": 15,\n                    \"container\": [\n                        {\n                            \"id\": 12,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 13,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 40,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 41,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 14,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 38,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 39,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 177,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 183,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 185,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 187,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 189,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 213,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 214,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 251,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                },\n                {\n                    \"id\": 153,\n                    \"type\": \"Program II\",\n                    \"children\": 9,\n                    \"container\": [\n                        {\n                            \"id\": 42,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 48,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 49,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 50,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 51,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 52,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 53,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 215,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 216,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 142,\n            \"type\": \"Curriculum II\",\n            \"children\": 3,\n            \"container\": [\n                {\n                    \"id\": 154,\n                    \"type\": \"Program II\",\n                    \"children\": 11,\n                    \"container\": [\n                        {\n                            \"id\": 57,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 58,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 59,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 60,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 61,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 62,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 63,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 64,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 65,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 217,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 218,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                },\n                {\n                    \"id\": 155,\n                    \"type\": \"Program II\",\n                    \"children\": 8,\n                    \"container\": [\n                        {\n                            \"id\": 66,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 67,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 68,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 69,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 70,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 71,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 219,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 220,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                },\n                {\n                    \"id\": 156,\n                    \"type\": \"Program II\",\n                    \"children\": 6,\n                    \"container\": [\n                        {\n                            \"id\": 72,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 73,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 74,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 184,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 221,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 222,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 143,\n            \"type\": \"Curriculum II\",\n            \"children\": 3,\n            \"container\": [\n                {\n                    \"id\": 146,\n                    \"type\": \"Program II\",\n                    \"children\": 12,\n                    \"container\": [\n                        {\n                            \"id\": 78,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 79,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 80,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 81,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 82,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 83,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 84,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 85,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 86,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 87,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 88,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 223,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                },\n                {\n                    \"id\": 147,\n                    \"type\": \"Program II\",\n                    \"children\": 11,\n                    \"container\": [\n                        {\n                            \"id\": 89,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 90,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 91,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 92,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 93,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 94,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 95,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 96,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 97,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 225,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 226,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                },\n                {\n                    \"id\": 148,\n                    \"type\": \"Program II\",\n                    \"children\": 6,\n                    \"container\": [\n                        {\n                            \"id\": 98,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 99,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 100,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 101,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 227,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 228,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 144,\n            \"type\": \"Curriculum II\",\n            \"children\": 3,\n            \"container\": [\n                {\n                    \"id\": 149,\n                    \"type\": \"Program II\",\n                    \"children\": 12,\n                    \"container\": [\n                        {\n                            \"id\": 105,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 106,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 107,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 108,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 109,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 111,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 112,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 110,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 113,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 114,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 115,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 116,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                },\n                {\n                    \"id\": 150,\n                    \"type\": \"Program II\",\n                    \"children\": 9,\n                    \"container\": [\n                        {\n                            \"id\": 117,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 118,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 119,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 120,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 121,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 122,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 123,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 231,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 232,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                },\n                {\n                    \"id\": 152,\n                    \"type\": \"Program II\",\n                    \"children\": 9,\n                    \"container\": [\n                        {\n                            \"id\": 124,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 125,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 126,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 127,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 128,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 129,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 130,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 233,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 234,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 145,\n            \"type\": \"Curriculum II\",\n            \"children\": 3,\n            \"container\": [\n                {\n                    \"id\": 157,\n                    \"type\": \"Program II\",\n                    \"children\": 11,\n                    \"container\": [\n                        {\n                            \"id\": 158,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 159,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 160,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 161,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 162,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 163,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 164,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 165,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 166,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 167,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 168,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                },\n                {\n                    \"id\": 252,\n                    \"type\": \"Program II\",\n                    \"children\": 0\n                },\n                {\n                    \"id\": 253,\n                    \"type\": \"Program II\",\n                    \"children\": 0\n                }\n            ]\n        },\n        {\n            \"id\": 199,\n            \"type\": \"Curriculum II\",\n            \"children\": 2,\n            \"container\": [\n                {\n                    \"id\": 200,\n                    \"type\": \"Program II\",\n                    \"children\": 5,\n                    \"container\": [\n                        {\n                            \"id\": 201,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 202,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 208,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 210,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 212,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                },\n                {\n                    \"id\": 238,\n                    \"type\": \"Program II\",\n                    \"children\": 1,\n                    \"container\": [\n                        {\n                            \"id\": 250,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 235,\n            \"type\": \"Curriculum Type\",\n            \"children\": 1,\n            \"container\": [\n                {\n                    \"id\": 236,\n                    \"type\": \"Curriculum\",\n                    \"children\": 2,\n                    \"container\": [\n                        {\n                            \"id\": 170,\n                            \"type\": \"Program\",\n                            \"children\": 1\n                        },\n                        {\n                            \"id\": 237,\n                            \"type\": \"Program\",\n                            \"children\": 6\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 239,\n            \"type\": \"Curriculum II\",\n            \"children\": 1,\n            \"container\": [\n                {\n                    \"id\": 242,\n                    \"type\": \"Program II\",\n                    \"children\": 14,\n                    \"container\": [\n                        {\n                            \"id\": 243,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 244,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 245,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 248,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 249,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 266,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 281,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 282,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 254,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 267,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 277,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 278,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 279,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        },\n                        {\n                            \"id\": 280,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 263,\n            \"type\": \"Curriculum II\",\n            \"children\": 1,\n            \"container\": [\n                {\n                    \"id\": 264,\n                    \"type\": \"Program II\",\n                    \"children\": 1,\n                    \"container\": [\n                        {\n                            \"id\": 265,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 268,\n            \"type\": \"Curriculum II\",\n            \"children\": 1,\n            \"container\": [\n                {\n                    \"id\": 272,\n                    \"type\": \"Program II\",\n                    \"children\": 1,\n                    \"container\": [\n                        {\n                            \"id\": 273,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 269,\n            \"type\": \"Curriculum II\",\n            \"children\": 1,\n            \"container\": [\n                {\n                    \"id\": 270,\n                    \"type\": \"Program II\",\n                    \"children\": 1,\n                    \"container\": [\n                        {\n                            \"id\": 271,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"id\": 274,\n            \"type\": \"Curriculum II\",\n            \"children\": 1,\n            \"container\": [\n                {\n                    \"id\": 275,\n                    \"type\": \"Program II\",\n                    \"children\": 1,\n                    \"container\": [\n                        {\n                            \"id\": 276,\n                            \"type\": \"Module II\",\n                            \"children\": 0\n                        }\n                    ]\n                }\n            ]\n        }\n    ]\n}"
+						}
+					]
+				}
+			],
+			"description": "\nThis group of APIs communicates with Microsoft Dynamics APIs."
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zLWJpb3RlY2gtcm91dGVyLmNvbXByZWhlbmQuaWJtLmNvbVwvYXV0aCIsImlhdCI6MTYzNjEzMjEwMiwiZXhwIjoxNjM2MTM1NzAyLCJuYmYiOjE2MzYxMzIxMDIsImp0aSI6IjdTcURNODF3VzZVTVZPczgiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.75qkx-bFaorI339pxY1sdeuriFYlqaYBNsei_o_u5nk",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "s-biotech-router.comprehend.ibm.com"
+		}
+	]
+}

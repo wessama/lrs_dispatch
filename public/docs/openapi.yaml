@@ -1,0 +1,1111 @@
+openapi: 3.0.3
+info:
+  title: 'Biotech Router'
+  description: 'A Lumen-based miscroservice for interaction with third-party vendor applications.'
+  version: 1.0.0
+servers:
+  -
+    url: 'https://s-biotech-router.comprehend.ibm.com'
+paths:
+  /auth:
+    post:
+      summary: 'Get a JWT via given credentials.'
+      description: 'Obtain a bearer token to use for authenticating future requests using an e-mail/password combo.'
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    access_token: '{YOUR_AUTH_KEY}'
+                    token_type: bearer
+                    expires_in: 3600
+                properties:
+                  data:
+                    type: object
+                    example:
+                      access_token: '{YOUR_AUTH_KEY}'
+                      token_type: bearer
+                      expires_in: 3600
+        401:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'User email'
+                  example: quia
+                password:
+                  type: string
+                  description: Password
+                  example: necessitatibus
+              required:
+                - email
+                - password
+      security: []
+  /domoscio/event:
+    post:
+      summary: 'Create an event in Domoscio Hub.'
+      description: "Obtain information for completed resource from CLMS and create an EventResult event in Domoscio Hub\nfor the current student.\n<aside class=\"notice\">This endpoint will automatically create a Domoscio Hub student using the given credentials if one has not already been created.</aside>"
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 677389
+                    event_type: EventResult
+                    payload: payload
+                    created_at: '2021-08-05T18:49:32.531Z'
+                    updated_at: '2021-08-05T18:49:32.531Z'
+                    student_id: 27425
+                    content_id: 20241
+                    feedback_error_id: null
+                    generated_at: '2021-08-05T18:49:32.531Z'
+                    return: false
+                    standard: null
+                    time_spent: null
+                    status: 201
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 677389
+                      event_type: EventResult
+                      payload: payload
+                      created_at: '2021-08-05T18:49:32.531Z'
+                      updated_at: '2021-08-05T18:49:32.531Z'
+                      student_id: 27425
+                      content_id: 20241
+                      feedback_error_id: null
+                      generated_at: '2021-08-05T18:49:32.531Z'
+                      return: false
+                      standard: null
+                      time_spent: null
+                      status: 201
+        401:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error:
+                    message: 'The given data was invalid'
+                    status: 422
+                    details:
+                      form-data-key: 'error message'
+                properties:
+                  error:
+                    type: object
+                    example:
+                      message: 'The given data was invalid'
+                      status: 422
+                      details:
+                        form-data-key: 'error message'
+        400:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"details\": \"details\",\n     \"status\": 400,\n  }\n}"
+        404:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"No statements found for this actor\",\n     \"status\": 404,\n  }\n}"
+        503:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Service unavailable\",\n     \"status\": 503,\n  }\n}"
+      tags:
+        - 'Domoscio Hub'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                student_uid:
+                  type: string
+                  description: 'Student UID in Domoscio Hub'
+                  example: aut
+                student_email:
+                  type: string
+                  description: 'Student e-mail in CLMS'
+                  example: omnis
+                student_firstname:
+                  type: string
+                  description: 'Student first name'
+                  example: quia
+                student_lastname:
+                  type: string
+                  description: 'Student last name'
+                  example: cumque
+                activity:
+                  type: string
+                  description: 'Activity name as stored in the LRS'
+                  example: et
+                activity_url:
+                  type: string
+                  description: 'Activity URL as stored in the LRS'
+                  example: aut
+                domoscio_content_uid:
+                  type: string
+                  description: 'Content UID in Domoscio Hub'
+                  example: aut
+              required:
+                - student_uid
+                - student_email
+                - activity
+                - activity_url
+                - domoscio_content_uid
+  /dreamcask/emit:
+    post:
+      summary: 'Emit a cmi5 statement to the LRS.'
+      description: "Forward a statement to the LRS.\n<aside class=\"notice\">The statement needs to follow the cmi5 specification.</aside>"
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Successfully forwarded to LRS'
+                  status: 200
+                properties:
+                  message:
+                    type: string
+                    example: 'Successfully forwarded to LRS'
+                  status:
+                    type: integer
+                    example: 200
+        401:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error:
+                    message: 'The given data was invalid'
+                    status: 422
+                    details:
+                      form-data-key: 'error message'
+                properties:
+                  error:
+                    type: object
+                    example:
+                      message: 'The given data was invalid'
+                      status: 422
+                      details:
+                        form-data-key: 'error message'
+        400:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"details\": \"details\",\n     \"status\": 400,\n  }\n}"
+        503:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Service unavailable\",\n     \"status\": 503,\n  }\n}"
+      tags:
+        - DreamCask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: string
+                  description: 'A cmi5 statement'
+                  example: perspiciatis
+              required:
+                - payload
+  /dreamcask/state:
+    get:
+      summary: 'Get an existing activity state.'
+      description: 'Obtain an activity state from the LRS.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Success
+                  payload: payload
+                  status: 200
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  payload:
+                    type: string
+                    example: payload
+                  status:
+                    type: integer
+                    example: 200
+        401:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+        404:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Resource not found\",\n     \"status\": 404,\n  }\n}"
+      tags:
+        - DreamCask
+    post:
+      summary: 'Update an existing activity state, or create a new one.'
+      description: 'Save an activity state in the LRS.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Successfully forwarded to LRS'
+                  status: 200
+                properties:
+                  message:
+                    type: string
+                    example: 'Successfully forwarded to LRS'
+                  status:
+                    type: integer
+                    example: 200
+        401:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+        422:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unprocessable entity\",\n     \"status\": 422,\n  }\n}"
+      tags:
+        - DreamCask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                state_id:
+                  type: string
+                  description: 'State ID in the LRS'
+                  example: ullam
+                activity_name:
+                  type: string
+                  description: 'Activity name'
+                  example: quis
+                activity_id:
+                  type: string
+                  description: 'Activity ID (typically a URL)'
+                  example: sit
+                email:
+                  type: string
+                  description: 'User email'
+                  example: tenetur
+                registration:
+                  type: string
+                  description: 'Registration ID'
+                  example: tempora
+                payload:
+                  type: string
+                  description: 'The state body'
+                  example: omnis
+              required:
+                - state_id
+                - activity_name
+                - activity_id
+                - email
+                - registration
+    parameters:
+      -
+        in: path
+        name: state_id
+        description: 'Optional parameter. State ID in the LRS'
+        required: true
+        schema:
+          type: string
+        examples:
+          omitted:
+            summary: 'When the value is omitted'
+            value: ''
+          present:
+            summary: 'When the value is present'
+            value: quasi
+      -
+        in: path
+        name: activity_id
+        description: 'Activity ID (typically a URL)'
+        example: vitae
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: activity_name
+        description: 'Activity name'
+        example: odit
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: email
+        description: 'User email'
+        example: consequatur
+        required: true
+        schema:
+          type: string
+  /:
+    get:
+      summary: ''
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  name: Lumen
+                  version: 0.0.1
+                  framework: 'Lumen (8.2.4) (Laravel Components ^8.0)'
+                  environment: documentation
+                  debug_mode: true
+                  timestamp: '2021-11-11 13:30:42'
+                  timezone: UTC
+                properties:
+                  name:
+                    type: string
+                    example: Lumen
+                  version:
+                    type: string
+                    example: 0.0.1
+                  framework:
+                    type: string
+                    example: 'Lumen (8.2.4) (Laravel Components ^8.0)'
+                  environment:
+                    type: string
+                    example: documentation
+                  debug_mode:
+                    type: boolean
+                    example: true
+                  timestamp:
+                    type: string
+                    example: '2021-11-11 13:30:42'
+                  timezone:
+                    type: string
+                    example: UTC
+      tags:
+        - Endpoints
+      security: []
+  /msdynamics:
+    get:
+      summary: 'Display a listing of the resource.'
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error:
+                    message: Unauthorized
+                    status: 401
+                    debug:
+                      exception: App\Exceptions\UnauthorizedException
+                      trace:
+                        - '#0 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(167): App\Http\Middleware\Authenticate->handle(Object(Illuminate\Http\Request), Object(Closure), ''api'')'
+                        - '#1 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Routing/Pipeline.php(30): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))'
+                        - '#2 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(103): Laravel\Lumen\Routing\Pipeline->Laravel\Lumen\Routing\{closure}(Object(Illuminate\Http\Request))'
+                        - '#3 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(426): Illuminate\Pipeline\Pipeline->then(Object(Closure))'
+                        - '#4 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(263): Laravel\Lumen\Application->sendThroughPipeline(Array, Object(Closure))'
+                        - '#5 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(169): Laravel\Lumen\Application->handleFoundRoute(Array)'
+                        - '#6 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Routing/Pipeline.php(48): Laravel\Lumen\Application->Laravel\Lumen\Concerns\{closure}(Object(Illuminate\Http\Request))'
+                        - '#7 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/fruitcake/laravel-cors/src/HandleCors.php(38): Laravel\Lumen\Routing\Pipeline->Laravel\Lumen\Routing\{closure}(Object(Illuminate\Http\Request))'
+                        - '#8 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(167): Fruitcake\Cors\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))'
+                        - '#9 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Routing/Pipeline.php(30): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))'
+                        - '#10 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(103): Laravel\Lumen\Routing\Pipeline->Laravel\Lumen\Routing\{closure}(Object(Illuminate\Http\Request))'
+                        - '#11 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(426): Illuminate\Pipeline\Pipeline->then(Object(Closure))'
+                        - '#12 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(175): Laravel\Lumen\Application->sendThroughPipeline(Array, Object(Closure))'
+                        - '#13 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(95): Laravel\Lumen\Application->dispatch(Object(Illuminate\Http\Request))'
+                        - '#14 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(308): Laravel\Lumen\Application->handle(Object(Illuminate\Http\Request))'
+                        - '#15 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(287): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->callLaravelOrLumenRoute(Object(Illuminate\Http\Request))'
+                        - '#16 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(89): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->makeApiCall(Object(Illuminate\Http\Request), Object(Knuckles\Scribe\Matching\LumenRouteAdapter))'
+                        - '#17 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(45): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->makeResponseCall(Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array)'
+                        - '#18 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(35): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->makeResponseCallIfConditionsPass(Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array)'
+                        - '#19 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php(222): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->__invoke(Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array)'
+                        - '#20 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php(179): Knuckles\Scribe\Extracting\Extractor->iterateThroughStrategies(''responses'', Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array, Object(Closure))'
+                        - '#21 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php(116): Knuckles\Scribe\Extracting\Extractor->fetchResponses(Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array)'
+                        - '#22 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php(118): Knuckles\Scribe\Extracting\Extractor->processRoute(Object(Knuckles\Scribe\Matching\LumenRouteAdapter), Array)'
+                        - '#23 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php(75): Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp->extractEndpointsInfoFromLaravelApp(Array, Array, Array, Array)'
+                        - '#24 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php(51): Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp->extractEndpointsInfoAndWriteToDisk(Object(Knuckles\Scribe\Matching\RouteMatcher), true)'
+                        - '#25 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php(46): Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp->get()'
+                        - '#26 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/BoundMethod.php(36): Knuckles\Scribe\Commands\GenerateDocumentation->handle(Object(Knuckles\Scribe\Matching\RouteMatcher), Object(Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFactory))'
+                        - '#27 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/Util.php(40): Illuminate\Container\BoundMethod::Illuminate\Container\{closure}()'
+                        - '#28 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/BoundMethod.php(93): Illuminate\Container\Util::unwrapIfClosure(Object(Closure))'
+                        - '#29 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/BoundMethod.php(37): Illuminate\Container\BoundMethod::callBoundMethod(Object(Laravel\Lumen\Application), Array, Object(Closure))'
+                        - '#30 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/Container.php(653): Illuminate\Container\BoundMethod::call(Object(Laravel\Lumen\Application), Array, Array, NULL)'
+                        - '#31 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/console/Command.php(136): Illuminate\Container\Container->call(Array)'
+                        - '#32 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Command/Command.php(299): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Illuminate\Console\OutputStyle))'
+                        - '#33 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/console/Command.php(121): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Illuminate\Console\OutputStyle))'
+                        - '#34 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Application.php(978): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                        - '#35 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Application.php(295): Symfony\Component\Console\Application->doRunCommand(Object(Knuckles\Scribe\Commands\GenerateDocumentation), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                        - '#36 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Application.php(167): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                        - '#37 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/console/Application.php(94): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                        - '#38 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Console/Kernel.php(116): Illuminate\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                        - '#39 /Users/wessamahmed/Documents/Workspace/biotech-router/artisan(35): Laravel\Lumen\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                        - '#40 {main}'
+                properties:
+                  error:
+                    type: object
+                    example:
+                      message: Unauthorized
+                      status: 401
+                      debug:
+                        exception: App\Exceptions\UnauthorizedException
+                        trace:
+                          - '#0 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(167): App\Http\Middleware\Authenticate->handle(Object(Illuminate\Http\Request), Object(Closure), ''api'')'
+                          - '#1 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Routing/Pipeline.php(30): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))'
+                          - '#2 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(103): Laravel\Lumen\Routing\Pipeline->Laravel\Lumen\Routing\{closure}(Object(Illuminate\Http\Request))'
+                          - '#3 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(426): Illuminate\Pipeline\Pipeline->then(Object(Closure))'
+                          - '#4 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(263): Laravel\Lumen\Application->sendThroughPipeline(Array, Object(Closure))'
+                          - '#5 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(169): Laravel\Lumen\Application->handleFoundRoute(Array)'
+                          - '#6 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Routing/Pipeline.php(48): Laravel\Lumen\Application->Laravel\Lumen\Concerns\{closure}(Object(Illuminate\Http\Request))'
+                          - '#7 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/fruitcake/laravel-cors/src/HandleCors.php(38): Laravel\Lumen\Routing\Pipeline->Laravel\Lumen\Routing\{closure}(Object(Illuminate\Http\Request))'
+                          - '#8 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(167): Fruitcake\Cors\HandleCors->handle(Object(Illuminate\Http\Request), Object(Closure))'
+                          - '#9 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Routing/Pipeline.php(30): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))'
+                          - '#10 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(103): Laravel\Lumen\Routing\Pipeline->Laravel\Lumen\Routing\{closure}(Object(Illuminate\Http\Request))'
+                          - '#11 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(426): Illuminate\Pipeline\Pipeline->then(Object(Closure))'
+                          - '#12 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(175): Laravel\Lumen\Application->sendThroughPipeline(Array, Object(Closure))'
+                          - '#13 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(95): Laravel\Lumen\Application->dispatch(Object(Illuminate\Http\Request))'
+                          - '#14 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(308): Laravel\Lumen\Application->handle(Object(Illuminate\Http\Request))'
+                          - '#15 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(287): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->callLaravelOrLumenRoute(Object(Illuminate\Http\Request))'
+                          - '#16 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(89): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->makeApiCall(Object(Illuminate\Http\Request), Object(Knuckles\Scribe\Matching\LumenRouteAdapter))'
+                          - '#17 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(45): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->makeResponseCall(Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array)'
+                          - '#18 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(35): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->makeResponseCallIfConditionsPass(Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array)'
+                          - '#19 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php(222): Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls->__invoke(Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array)'
+                          - '#20 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php(179): Knuckles\Scribe\Extracting\Extractor->iterateThroughStrategies(''responses'', Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array, Object(Closure))'
+                          - '#21 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php(116): Knuckles\Scribe\Extracting\Extractor->fetchResponses(Object(Knuckles\Camel\Extraction\ExtractedEndpointData), Array)'
+                          - '#22 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php(118): Knuckles\Scribe\Extracting\Extractor->processRoute(Object(Knuckles\Scribe\Matching\LumenRouteAdapter), Array)'
+                          - '#23 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php(75): Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp->extractEndpointsInfoFromLaravelApp(Array, Array, Array, Array)'
+                          - '#24 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php(51): Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp->extractEndpointsInfoAndWriteToDisk(Object(Knuckles\Scribe\Matching\RouteMatcher), true)'
+                          - '#25 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php(46): Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp->get()'
+                          - '#26 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/BoundMethod.php(36): Knuckles\Scribe\Commands\GenerateDocumentation->handle(Object(Knuckles\Scribe\Matching\RouteMatcher), Object(Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFactory))'
+                          - '#27 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/Util.php(40): Illuminate\Container\BoundMethod::Illuminate\Container\{closure}()'
+                          - '#28 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/BoundMethod.php(93): Illuminate\Container\Util::unwrapIfClosure(Object(Closure))'
+                          - '#29 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/BoundMethod.php(37): Illuminate\Container\BoundMethod::callBoundMethod(Object(Laravel\Lumen\Application), Array, Object(Closure))'
+                          - '#30 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/Container.php(653): Illuminate\Container\BoundMethod::call(Object(Laravel\Lumen\Application), Array, Array, NULL)'
+                          - '#31 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/console/Command.php(136): Illuminate\Container\Container->call(Array)'
+                          - '#32 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Command/Command.php(299): Illuminate\Console\Command->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Illuminate\Console\OutputStyle))'
+                          - '#33 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/console/Command.php(121): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Illuminate\Console\OutputStyle))'
+                          - '#34 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Application.php(978): Illuminate\Console\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                          - '#35 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Application.php(295): Symfony\Component\Console\Application->doRunCommand(Object(Knuckles\Scribe\Commands\GenerateDocumentation), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                          - '#36 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Application.php(167): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                          - '#37 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/console/Application.php(94): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                          - '#38 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Console/Kernel.php(116): Illuminate\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                          - '#39 /Users/wessamahmed/Documents/Workspace/biotech-router/artisan(35): Laravel\Lumen\Console\Kernel->handle(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))'
+                          - '#40 {main}'
+      tags:
+        - 'Microsoft Dynamics'
+      security: []
+  /msdynamics/enroll:
+    post:
+      summary: 'Enroll users to a CLMS course.'
+      description: 'Enroll existing users to a CLMS course using their OID.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Success
+                  status: 200
+                  data:
+                    -
+                      username: username
+                      oid: oid
+                      catalog: catalog
+                      access_duration: access_duration
+                      status: 'status message'
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    example:
+                      -
+                        username: username
+                        oid: oid
+                        catalog: catalog
+                        access_duration: access_duration
+                        status: 'status message'
+                    items:
+                      type: object
+        400:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"status\": 400,\n  }\n}"
+        401:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+        422:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unprocessable entity\",\n     \"status\": 422,\n  }\n}"
+      tags:
+        - 'Microsoft Dynamics'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  description: 'List of users'
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        description: Username
+                        example: ullam
+                      oid:
+                        type: string
+                        description: 'User OID'
+                        example: ad
+                      apn:
+                        type: string
+                        description: 'User e-mail'
+                        example: itaque
+                      catalog:
+                        type: integer
+                        description: 'Catalog ID to enroll the user in'
+                        example: 12
+                      access_duration:
+                        type: integer
+                        description: 'Access duration in days'
+                        example: 3
+                    required:
+                      - username
+                      - oid
+                      - apn
+                      - catalog
+                      - access_duration
+              required:
+                - users
+  /msdynamics/list:
+    get:
+      summary: 'Show CLMS catalog tree.'
+      description: 'Show the catalog hierarchy.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"message\": \"Success\",\n  \"status\": 200,\n  \"data\" : [\n         {\n             \"id\": \"id\",\n             \"type\": \"type\",\n             \"duration\": \"duration_in_seconds\",\n             \"children\": \"1\",\n             \"custom_fields\": [\n                     \"field1\",\n                     \"field2\"\n             ],\n             \"container\": [\n                     \"id\": \"id\",\n                     \"type\": \"type\",\n                     \"children\": \"0\"\n             ]\n         }\n   ]\n}"
+        400:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Bad request\",\n     \"status\": 400,\n  }\n}"
+        401:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+      tags:
+        - 'Microsoft Dynamics'
+    parameters:
+      -
+        in: path
+        name: array
+        description: 'Array of custom fields to retrieve'
+        example: ea
+        required: true
+        schema:
+          type: string
+  /msdynamics/unenroll:
+    delete:
+      summary: 'Un-enroll users from a CLMS course.'
+      description: 'Remove users'' enrollment from a CLMS course.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Success
+                  status: 200
+                  data:
+                    -
+                      username: username
+                      oid: oid
+                      catalog: catalog
+                      status: 'status message'
+                properties:
+                  message:
+                    type: string
+                    example: Success
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    example:
+                      -
+                        username: username
+                        oid: oid
+                        catalog: catalog
+                        status: 'status message'
+                    items:
+                      type: object
+        401:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+        422:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unprocessable entity\",\n     \"status\": 422,\n  }\n}"
+      tags:
+        - 'Microsoft Dynamics'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+                  description: 'List of users'
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                        description: Username
+                        example: sint
+                      oid:
+                        type: string
+                        description: 'User OID'
+                        example: ex
+                      catalog:
+                        type: string
+                        description: 'Catalog ID to enroll the user in'
+                        example: natus
+                    required:
+                      - username
+                      - oid
+                      - catalog
+              required:
+                - users
+  /users:
+    get:
+      summary: 'Get all users.'
+      description: 'List all currently registered user accounts.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 1
+                      name: Name
+                      email: email@example.com
+                  meta:
+                    pagination:
+                      total: 1
+                      count: 1
+                      per_page: 20
+                      current_page: 1
+                      total_pages: 1
+                      links: {  }
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: Name
+                        email: email@example.com
+                    items:
+                      type: object
+                  meta:
+                    type: object
+                    example:
+                      pagination:
+                        total: 1
+                        count: 1
+                        per_page: 20
+                        current_page: 1
+                        total_pages: 1
+                        links: {  }
+        401:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n  \"error\":\n  {\n     \"message\": \"Unauthorized\",\n     \"status\": 401,\n  }\n}"
+      tags:
+        - 'User management'
+tags:
+  -
+    name: Authentication
+    description: ''
+  -
+    name: 'Domoscio Hub'
+    description: ''
+  -
+    name: DreamCask
+    description: ''
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: 'Microsoft Dynamics'
+    description: "\nThis group of APIs communicates with Microsoft Dynamics APIs."
+  -
+    name: 'User management'
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: ''
+security:
+  -
+    default: []

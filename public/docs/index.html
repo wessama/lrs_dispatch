@@ -1,0 +1,2114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Biotech Router</title>
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../docs/css/theme-default.style.css" media="screen">
+    <link rel="stylesheet" href="../docs/css/theme-default.print.css" media="print">
+    <script src="../docs/js/theme-default-3.11.1.js"></script>
+
+    <link rel="stylesheet"
+          href="//unpkg.com/@highlightjs/cdn-assets@10.7.2/styles/obsidian.min.css">
+    <script src="//unpkg.com/@highlightjs/cdn-assets@10.7.2/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="//cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+    <script>
+        var baseUrl = "http://127.0.0.1:8000";
+        var useCsrf = Boolean();
+        var csrfUrl = "/sanctum/csrf-cookie";
+    </script>
+    <script src="../docs/js/tryitout-3.11.1.js"></script>
+
+</head>
+
+<body data-languages="[&quot;bash&quot;,&quot;javascript&quot;,&quot;php&quot;]">
+<a href="#" id="nav-button">
+      <span>
+        MENU
+        <img src="../docs/images/navbar.png" alt="navbar-image" />
+      </span>
+</a>
+<div class="tocify-wrapper">
+                <div class="lang-selector">
+                            <a href="#" data-language-name="bash">bash</a>
+                            <a href="#" data-language-name="javascript">javascript</a>
+                            <a href="#" data-language-name="php">php</a>
+                    </div>
+        <div class="search">
+        <input type="text" class="search" id="input-search" placeholder="Search">
+    </div>
+    <ul class="search-results"></ul>
+
+    <ul id="toc">
+    </ul>
+
+            <ul class="toc-footer" id="toc-footer">
+                            <li><a href="../docs/collection.json">View Postman collection</a></li>
+                            <li><a href="../docs/openapi.yaml">View OpenAPI spec</a></li>
+                            <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
+                    </ul>
+            <ul class="toc-footer" id="last-updated">
+            <li>Last updated: November 11 2021</li>
+        </ul>
+</div>
+<div class="page-wrapper">
+    <div class="dark-box"></div>
+    <div class="content">
+        <h1>Introduction</h1>
+<p>A Lumen-based miscroservice for interaction with third-party vendor applications.</p>
+<p>This documentation aims to provide all the information you need to work with our API.</p>
+<aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
+You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
+<blockquote>
+<p>Base URL</p>
+</blockquote>
+<pre><code class="language-yaml">https://s-biotech-router.comprehend.ibm.com</code></pre>
+
+        <h1>Authenticating requests</h1>
+<p>This API is authenticated by sending an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_AUTH_KEY}"</code></strong>.</p>
+<p>All authenticated endpoints are marked with a <code>requires authentication</code> badge in the documentation below.</p>
+<p>You can retrieve your token using an e-mail/password combo.</p>
+
+        <h1 id="authentication">Authentication</h1>
+
+    
+
+            <h2 id="authentication-POSTauth">Get a JWT via given credentials.</h2>
+
+<p>
+</p>
+
+<p>Obtain a bearer token to use for authenticating future requests using an e-mail/password combo.</p>
+
+<span id="example-requests-POSTauth">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request POST \
+    "https://s-biotech-router.comprehend.ibm.com/auth" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"quia\",
+    \"password\": \"necessitatibus\"
+}"
+</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/auth"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "email": "quia",
+    "password": "necessitatibus"
+}
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'https://s-biotech-router.comprehend.ibm.com/auth',
+    [
+        'headers' =&gt; [
+            'Accept' =&gt; 'application/json',
+        ],
+        'json' =&gt; [
+            'email' =&gt; 'quia',
+            'password' =&gt; 'necessitatibus',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-POSTauth">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;access_token&quot;: &quot;{YOUR_AUTH_KEY}&quot;,
+        &quot;token_type&quot;: &quot;bearer&quot;,
+        &quot;expires_in&quot;: 3600
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unauthorized&quot;,
+     &quot;status&quot;: 401,
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTauth" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTauth"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTauth"></code></pre>
+</span>
+<span id="execution-error-POSTauth" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTauth"></code></pre>
+</span>
+<form id="form-POSTauth" data-method="POST"
+      data-path="auth"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTauth', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTauth"
+                    onclick="tryItOut('POSTauth');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTauth"
+                    onclick="cancelTryOut('POSTauth');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTauth" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>auth</code></b>
+        </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>email</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="email"
+               data-endpoint="POSTauth"
+               data-component="body" required  hidden>
+    <br>
+<p>User email</p>        </p>
+                <p>
+            <b><code>password</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="password"
+               data-endpoint="POSTauth"
+               data-component="body" required  hidden>
+    <br>
+<p>Password</p>        </p>
+    
+    </form>
+
+        <h1 id="domoscio-hub">Domoscio Hub</h1>
+
+    
+
+            <h2 id="domoscio-hub-POSTdomoscio-event">Create an event in Domoscio Hub.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Obtain information for completed resource from CLMS and create an EventResult event in Domoscio Hub
+for the current student.</p>
+<aside class="notice">This endpoint will automatically create a Domoscio Hub student using the given credentials if one has not already been created.</aside>
+
+<span id="example-requests-POSTdomoscio-event">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request POST \
+    "https://s-biotech-router.comprehend.ibm.com/domoscio/event" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"student_uid\": \"aut\",
+    \"student_email\": \"omnis\",
+    \"student_firstname\": \"quia\",
+    \"student_lastname\": \"cumque\",
+    \"activity\": \"et\",
+    \"activity_url\": \"aut\",
+    \"domoscio_content_uid\": \"aut\"
+}"
+</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/domoscio/event"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "student_uid": "aut",
+    "student_email": "omnis",
+    "student_firstname": "quia",
+    "student_lastname": "cumque",
+    "activity": "et",
+    "activity_url": "aut",
+    "domoscio_content_uid": "aut"
+}
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'https://s-biotech-router.comprehend.ibm.com/domoscio/event',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {YOUR_AUTH_KEY}',
+            'Accept' =&gt; 'application/json',
+        ],
+        'json' =&gt; [
+            'student_uid' =&gt; 'aut',
+            'student_email' =&gt; 'omnis',
+            'student_firstname' =&gt; 'quia',
+            'student_lastname' =&gt; 'cumque',
+            'activity' =&gt; 'et',
+            'activity_url' =&gt; 'aut',
+            'domoscio_content_uid' =&gt; 'aut',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-POSTdomoscio-event">
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 677389,
+        &quot;event_type&quot;: &quot;EventResult&quot;,
+        &quot;payload&quot;: &quot;payload&quot;,
+        &quot;created_at&quot;: &quot;2021-08-05T18:49:32.531Z&quot;,
+        &quot;updated_at&quot;: &quot;2021-08-05T18:49:32.531Z&quot;,
+        &quot;student_id&quot;: 27425,
+        &quot;content_id&quot;: 20241,
+        &quot;feedback_error_id&quot;: null,
+        &quot;generated_at&quot;: &quot;2021-08-05T18:49:32.531Z&quot;,
+        &quot;return&quot;: false,
+        &quot;standard&quot;: null,
+        &quot;time_spent&quot;: null,
+        &quot;status&quot;: 201
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unauthorized&quot;,
+     &quot;status&quot;: 401,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;error&quot;: {
+        &quot;message&quot;: &quot;The given data was invalid&quot;,
+        &quot;status&quot;: 422,
+        &quot;details&quot;: {
+            &quot;form-data-key&quot;: &quot;error message&quot;
+        }
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (400):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Bad request&quot;,
+     &quot;details&quot;: &quot;details&quot;,
+     &quot;status&quot;: 400,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;No statements found for this actor&quot;,
+     &quot;status&quot;: 404,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (503):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Service unavailable&quot;,
+     &quot;status&quot;: 503,
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTdomoscio-event" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTdomoscio-event"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTdomoscio-event"></code></pre>
+</span>
+<span id="execution-error-POSTdomoscio-event" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTdomoscio-event"></code></pre>
+</span>
+<form id="form-POSTdomoscio-event" data-method="POST"
+      data-path="domoscio/event"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTdomoscio-event', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTdomoscio-event"
+                    onclick="tryItOut('POSTdomoscio-event');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTdomoscio-event"
+                    onclick="cancelTryOut('POSTdomoscio-event');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTdomoscio-event" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>domoscio/event</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTdomoscio-event" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTdomoscio-event"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>student_uid</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="student_uid"
+               data-endpoint="POSTdomoscio-event"
+               data-component="body" required  hidden>
+    <br>
+<p>Student UID in Domoscio Hub</p>        </p>
+                <p>
+            <b><code>student_email</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="student_email"
+               data-endpoint="POSTdomoscio-event"
+               data-component="body" required  hidden>
+    <br>
+<p>Student e-mail in CLMS</p>        </p>
+                <p>
+            <b><code>student_firstname</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="student_firstname"
+               data-endpoint="POSTdomoscio-event"
+               data-component="body"  hidden>
+    <br>
+<p>Student first name</p>        </p>
+                <p>
+            <b><code>student_lastname</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="student_lastname"
+               data-endpoint="POSTdomoscio-event"
+               data-component="body"  hidden>
+    <br>
+<p>Student last name</p>        </p>
+                <p>
+            <b><code>activity</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="activity"
+               data-endpoint="POSTdomoscio-event"
+               data-component="body" required  hidden>
+    <br>
+<p>Activity name as stored in the LRS</p>        </p>
+                <p>
+            <b><code>activity_url</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="activity_url"
+               data-endpoint="POSTdomoscio-event"
+               data-component="body" required  hidden>
+    <br>
+<p>Activity URL as stored in the LRS</p>        </p>
+                <p>
+            <b><code>domoscio_content_uid</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="domoscio_content_uid"
+               data-endpoint="POSTdomoscio-event"
+               data-component="body" required  hidden>
+    <br>
+<p>Content UID in Domoscio Hub</p>        </p>
+    
+    </form>
+
+        <h1 id="dreamcask">DreamCask</h1>
+
+    
+
+            <h2 id="dreamcask-POSTdreamcask-emit">Emit a cmi5 statement to the LRS.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Forward a statement to the LRS.</p>
+<aside class="notice">The statement needs to follow the cmi5 specification.</aside>
+
+<span id="example-requests-POSTdreamcask-emit">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request POST \
+    "https://s-biotech-router.comprehend.ibm.com/dreamcask/emit" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"payload\": \"perspiciatis\"
+}"
+</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/dreamcask/emit"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "payload": "perspiciatis"
+}
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'https://s-biotech-router.comprehend.ibm.com/dreamcask/emit',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {YOUR_AUTH_KEY}',
+            'Accept' =&gt; 'application/json',
+        ],
+        'json' =&gt; [
+            'payload' =&gt; 'perspiciatis',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-POSTdreamcask-emit">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Successfully forwarded to LRS&quot;,
+    &quot;status&quot;: 200
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unauthorized&quot;,
+     &quot;status&quot;: 401,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;error&quot;: {
+        &quot;message&quot;: &quot;The given data was invalid&quot;,
+        &quot;status&quot;: 422,
+        &quot;details&quot;: {
+            &quot;form-data-key&quot;: &quot;error message&quot;
+        }
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (400):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Bad request&quot;,
+     &quot;details&quot;: &quot;details&quot;,
+     &quot;status&quot;: 400,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (503):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Service unavailable&quot;,
+     &quot;status&quot;: 503,
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTdreamcask-emit" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTdreamcask-emit"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTdreamcask-emit"></code></pre>
+</span>
+<span id="execution-error-POSTdreamcask-emit" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTdreamcask-emit"></code></pre>
+</span>
+<form id="form-POSTdreamcask-emit" data-method="POST"
+      data-path="dreamcask/emit"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTdreamcask-emit', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTdreamcask-emit"
+                    onclick="tryItOut('POSTdreamcask-emit');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTdreamcask-emit"
+                    onclick="cancelTryOut('POSTdreamcask-emit');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTdreamcask-emit" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>dreamcask/emit</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTdreamcask-emit" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTdreamcask-emit"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>payload</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="payload"
+               data-endpoint="POSTdreamcask-emit"
+               data-component="body" required  hidden>
+    <br>
+<p>A cmi5 statement</p>        </p>
+    
+    </form>
+
+            <h2 id="dreamcask-GETdreamcask-state">Get an existing activity state.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Obtain an activity state from the LRS.</p>
+
+<span id="example-requests-GETdreamcask-state">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request GET \
+    --get "https://s-biotech-router.comprehend.ibm.com/dreamcask/state" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/dreamcask/state"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'https://s-biotech-router.comprehend.ibm.com/dreamcask/state',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {YOUR_AUTH_KEY}',
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-GETdreamcask-state">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Success&quot;,
+    &quot;payload&quot;: &quot;payload&quot;,
+    &quot;status&quot;: 200
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unauthorized&quot;,
+     &quot;status&quot;: 401,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Resource not found&quot;,
+     &quot;status&quot;: 404,
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETdreamcask-state" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETdreamcask-state"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETdreamcask-state"></code></pre>
+</span>
+<span id="execution-error-GETdreamcask-state" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETdreamcask-state"></code></pre>
+</span>
+<form id="form-GETdreamcask-state" data-method="GET"
+      data-path="dreamcask/state"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETdreamcask-state', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETdreamcask-state"
+                    onclick="tryItOut('GETdreamcask-state');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETdreamcask-state"
+                    onclick="cancelTryOut('GETdreamcask-state');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETdreamcask-state" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>dreamcask/state</code></b>
+        </p>
+                <p>
+            <label id="auth-GETdreamcask-state" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETdreamcask-state"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>state_id</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="state_id"
+               data-endpoint="GETdreamcask-state"
+               data-component="url"  hidden>
+    <br>
+<p>State ID in the LRS</p>            </p>
+                    <p>
+                <b><code>activity_id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="activity_id"
+               data-endpoint="GETdreamcask-state"
+               data-component="url" required  hidden>
+    <br>
+<p>Activity ID (typically a URL)</p>            </p>
+                    <p>
+                <b><code>activity_name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="activity_name"
+               data-endpoint="GETdreamcask-state"
+               data-component="url" required  hidden>
+    <br>
+<p>Activity name</p>            </p>
+                    <p>
+                <b><code>email</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="email"
+               data-endpoint="GETdreamcask-state"
+               data-component="url" required  hidden>
+    <br>
+<p>User email</p>            </p>
+                    </form>
+
+            <h2 id="dreamcask-POSTdreamcask-state">Update an existing activity state, or create a new one.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Save an activity state in the LRS.</p>
+
+<span id="example-requests-POSTdreamcask-state">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request POST \
+    "https://s-biotech-router.comprehend.ibm.com/dreamcask/state" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"state_id\": \"ullam\",
+    \"activity_name\": \"quis\",
+    \"activity_id\": \"sit\",
+    \"email\": \"tenetur\",
+    \"registration\": \"tempora\",
+    \"payload\": \"omnis\"
+}"
+</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/dreamcask/state"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "state_id": "ullam",
+    "activity_name": "quis",
+    "activity_id": "sit",
+    "email": "tenetur",
+    "registration": "tempora",
+    "payload": "omnis"
+}
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'https://s-biotech-router.comprehend.ibm.com/dreamcask/state',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {YOUR_AUTH_KEY}',
+            'Accept' =&gt; 'application/json',
+        ],
+        'json' =&gt; [
+            'state_id' =&gt; 'ullam',
+            'activity_name' =&gt; 'quis',
+            'activity_id' =&gt; 'sit',
+            'email' =&gt; 'tenetur',
+            'registration' =&gt; 'tempora',
+            'payload' =&gt; 'omnis',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-POSTdreamcask-state">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Successfully forwarded to LRS&quot;,
+    &quot;status&quot;: 200
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unauthorized&quot;,
+     &quot;status&quot;: 401,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unprocessable entity&quot;,
+     &quot;status&quot;: 422,
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTdreamcask-state" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTdreamcask-state"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTdreamcask-state"></code></pre>
+</span>
+<span id="execution-error-POSTdreamcask-state" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTdreamcask-state"></code></pre>
+</span>
+<form id="form-POSTdreamcask-state" data-method="POST"
+      data-path="dreamcask/state"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTdreamcask-state', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTdreamcask-state"
+                    onclick="tryItOut('POSTdreamcask-state');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTdreamcask-state"
+                    onclick="cancelTryOut('POSTdreamcask-state');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTdreamcask-state" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>dreamcask/state</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTdreamcask-state" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTdreamcask-state"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>state_id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="state_id"
+               data-endpoint="POSTdreamcask-state"
+               data-component="body" required  hidden>
+    <br>
+<p>State ID in the LRS</p>        </p>
+                <p>
+            <b><code>activity_name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="activity_name"
+               data-endpoint="POSTdreamcask-state"
+               data-component="body" required  hidden>
+    <br>
+<p>Activity name</p>        </p>
+                <p>
+            <b><code>activity_id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="activity_id"
+               data-endpoint="POSTdreamcask-state"
+               data-component="body" required  hidden>
+    <br>
+<p>Activity ID (typically a URL)</p>        </p>
+                <p>
+            <b><code>email</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="email"
+               data-endpoint="POSTdreamcask-state"
+               data-component="body" required  hidden>
+    <br>
+<p>User email</p>        </p>
+                <p>
+            <b><code>registration</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="registration"
+               data-endpoint="POSTdreamcask-state"
+               data-component="body" required  hidden>
+    <br>
+<p>Registration ID</p>        </p>
+                <p>
+            <b><code>payload</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="payload"
+               data-endpoint="POSTdreamcask-state"
+               data-component="body"  hidden>
+    <br>
+<p>The state body</p>        </p>
+    
+    </form>
+
+        <h1 id="endpoints">Endpoints</h1>
+
+    
+
+            <h2 id="endpoints-GET-">GET /</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GET-">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request GET \
+    --get "https://s-biotech-router.comprehend.ibm.com/" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'https://s-biotech-router.comprehend.ibm.com/',
+    [
+        'headers' =&gt; [
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-GET-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;name&quot;: &quot;Lumen&quot;,
+    &quot;version&quot;: &quot;0.0.1&quot;,
+    &quot;framework&quot;: &quot;Lumen (8.2.4) (Laravel Components ^8.0)&quot;,
+    &quot;environment&quot;: &quot;documentation&quot;,
+    &quot;debug_mode&quot;: true,
+    &quot;timestamp&quot;: &quot;2021-11-11 13:30:42&quot;,
+    &quot;timezone&quot;: &quot;UTC&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GET-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GET-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GET-"></code></pre>
+</span>
+<span id="execution-error-GET-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GET-"></code></pre>
+</span>
+<form id="form-GET-" data-method="GET"
+      data-path="/"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GET-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GET-"
+                    onclick="tryItOut('GET-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GET-"
+                    onclick="cancelTryOut('GET-');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GET-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>/</code></b>
+        </p>
+                    </form>
+
+        <h1 id="microsoft-dynamics">Microsoft Dynamics</h1>
+
+    <p>This group of APIs communicates with Microsoft Dynamics APIs.</p>
+
+            <h2 id="microsoft-dynamics-GETmsdynamics">Display a listing of the resource.</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETmsdynamics">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request GET \
+    --get "https://s-biotech-router.comprehend.ibm.com/msdynamics" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/msdynamics"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'https://s-biotech-router.comprehend.ibm.com/msdynamics',
+    [
+        'headers' =&gt; [
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-GETmsdynamics">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+www-authenticate: Bearer realm=http://127.0.0.1:8000
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;error&quot;: {
+        &quot;message&quot;: &quot;Unauthorized&quot;,
+        &quot;status&quot;: 401,
+        &quot;debug&quot;: {
+            &quot;exception&quot;: &quot;App\\Exceptions\\UnauthorizedException&quot;,
+            &quot;trace&quot;: [
+                &quot;#0 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(167): App\\Http\\Middleware\\Authenticate-&gt;handle(Object(Illuminate\\Http\\Request), Object(Closure), 'api')&quot;,
+                &quot;#1 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Routing/Pipeline.php(30): Illuminate\\Pipeline\\Pipeline-&gt;Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))&quot;,
+                &quot;#2 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(103): Laravel\\Lumen\\Routing\\Pipeline-&gt;Laravel\\Lumen\\Routing\\{closure}(Object(Illuminate\\Http\\Request))&quot;,
+                &quot;#3 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(426): Illuminate\\Pipeline\\Pipeline-&gt;then(Object(Closure))&quot;,
+                &quot;#4 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(263): Laravel\\Lumen\\Application-&gt;sendThroughPipeline(Array, Object(Closure))&quot;,
+                &quot;#5 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(169): Laravel\\Lumen\\Application-&gt;handleFoundRoute(Array)&quot;,
+                &quot;#6 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Routing/Pipeline.php(48): Laravel\\Lumen\\Application-&gt;Laravel\\Lumen\\Concerns\\{closure}(Object(Illuminate\\Http\\Request))&quot;,
+                &quot;#7 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/fruitcake/laravel-cors/src/HandleCors.php(38): Laravel\\Lumen\\Routing\\Pipeline-&gt;Laravel\\Lumen\\Routing\\{closure}(Object(Illuminate\\Http\\Request))&quot;,
+                &quot;#8 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(167): Fruitcake\\Cors\\HandleCors-&gt;handle(Object(Illuminate\\Http\\Request), Object(Closure))&quot;,
+                &quot;#9 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Routing/Pipeline.php(30): Illuminate\\Pipeline\\Pipeline-&gt;Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))&quot;,
+                &quot;#10 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/pipeline/Pipeline.php(103): Laravel\\Lumen\\Routing\\Pipeline-&gt;Laravel\\Lumen\\Routing\\{closure}(Object(Illuminate\\Http\\Request))&quot;,
+                &quot;#11 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(426): Illuminate\\Pipeline\\Pipeline-&gt;then(Object(Closure))&quot;,
+                &quot;#12 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(175): Laravel\\Lumen\\Application-&gt;sendThroughPipeline(Array, Object(Closure))&quot;,
+                &quot;#13 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(95): Laravel\\Lumen\\Application-&gt;dispatch(Object(Illuminate\\Http\\Request))&quot;,
+                &quot;#14 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(308): Laravel\\Lumen\\Application-&gt;handle(Object(Illuminate\\Http\\Request))&quot;,
+                &quot;#15 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(287): Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls-&gt;callLaravelOrLumenRoute(Object(Illuminate\\Http\\Request))&quot;,
+                &quot;#16 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(89): Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls-&gt;makeApiCall(Object(Illuminate\\Http\\Request), Object(Knuckles\\Scribe\\Matching\\LumenRouteAdapter))&quot;,
+                &quot;#17 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(45): Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls-&gt;makeResponseCall(Object(Knuckles\\Camel\\Extraction\\ExtractedEndpointData), Array)&quot;,
+                &quot;#18 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php(35): Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls-&gt;makeResponseCallIfConditionsPass(Object(Knuckles\\Camel\\Extraction\\ExtractedEndpointData), Array)&quot;,
+                &quot;#19 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php(222): Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls-&gt;__invoke(Object(Knuckles\\Camel\\Extraction\\ExtractedEndpointData), Array)&quot;,
+                &quot;#20 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php(179): Knuckles\\Scribe\\Extracting\\Extractor-&gt;iterateThroughStrategies('responses', Object(Knuckles\\Camel\\Extraction\\ExtractedEndpointData), Array, Object(Closure))&quot;,
+                &quot;#21 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php(116): Knuckles\\Scribe\\Extracting\\Extractor-&gt;fetchResponses(Object(Knuckles\\Camel\\Extraction\\ExtractedEndpointData), Array)&quot;,
+                &quot;#22 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php(118): Knuckles\\Scribe\\Extracting\\Extractor-&gt;processRoute(Object(Knuckles\\Scribe\\Matching\\LumenRouteAdapter), Array)&quot;,
+                &quot;#23 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php(75): Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp-&gt;extractEndpointsInfoFromLaravelApp(Array, Array, Array, Array)&quot;,
+                &quot;#24 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php(51): Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp-&gt;extractEndpointsInfoAndWriteToDisk(Object(Knuckles\\Scribe\\Matching\\RouteMatcher), true)&quot;,
+                &quot;#25 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php(46): Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp-&gt;get()&quot;,
+                &quot;#26 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/BoundMethod.php(36): Knuckles\\Scribe\\Commands\\GenerateDocumentation-&gt;handle(Object(Knuckles\\Scribe\\Matching\\RouteMatcher), Object(Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFactory))&quot;,
+                &quot;#27 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/Util.php(40): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()&quot;,
+                &quot;#28 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))&quot;,
+                &quot;#29 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Laravel\\Lumen\\Application), Array, Object(Closure))&quot;,
+                &quot;#30 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/container/Container.php(653): Illuminate\\Container\\BoundMethod::call(Object(Laravel\\Lumen\\Application), Array, Array, NULL)&quot;,
+                &quot;#31 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/console/Command.php(136): Illuminate\\Container\\Container-&gt;call(Array)&quot;,
+                &quot;#32 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Command/Command.php(299): Illuminate\\Console\\Command-&gt;execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))&quot;,
+                &quot;#33 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/console/Command.php(121): Symfony\\Component\\Console\\Command\\Command-&gt;run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))&quot;,
+                &quot;#34 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Application.php(978): Illuminate\\Console\\Command-&gt;run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))&quot;,
+                &quot;#35 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Application.php(295): Symfony\\Component\\Console\\Application-&gt;doRunCommand(Object(Knuckles\\Scribe\\Commands\\GenerateDocumentation), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))&quot;,
+                &quot;#36 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/symfony/console/Application.php(167): Symfony\\Component\\Console\\Application-&gt;doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))&quot;,
+                &quot;#37 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/illuminate/console/Application.php(94): Symfony\\Component\\Console\\Application-&gt;run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))&quot;,
+                &quot;#38 /Users/wessamahmed/Documents/Workspace/biotech-router/vendor/laravel/lumen-framework/src/Console/Kernel.php(116): Illuminate\\Console\\Application-&gt;run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))&quot;,
+                &quot;#39 /Users/wessamahmed/Documents/Workspace/biotech-router/artisan(35): Laravel\\Lumen\\Console\\Kernel-&gt;handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))&quot;,
+                &quot;#40 {main}&quot;
+            ]
+        }
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETmsdynamics" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETmsdynamics"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETmsdynamics"></code></pre>
+</span>
+<span id="execution-error-GETmsdynamics" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETmsdynamics"></code></pre>
+</span>
+<form id="form-GETmsdynamics" data-method="GET"
+      data-path="msdynamics"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETmsdynamics', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETmsdynamics"
+                    onclick="tryItOut('GETmsdynamics');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETmsdynamics"
+                    onclick="cancelTryOut('GETmsdynamics');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETmsdynamics" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>msdynamics</code></b>
+        </p>
+                    </form>
+
+            <h2 id="microsoft-dynamics-POSTmsdynamics-enroll">Enroll users to a CLMS course.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Enroll existing users to a CLMS course using their OID.</p>
+
+<span id="example-requests-POSTmsdynamics-enroll">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request POST \
+    "https://s-biotech-router.comprehend.ibm.com/msdynamics/enroll" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"users\": [
+        {
+            \"username\": \"ullam\",
+            \"oid\": \"ad\",
+            \"apn\": \"itaque\",
+            \"catalog\": 12,
+            \"access_duration\": 3
+        }
+    ]
+}"
+</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/msdynamics/enroll"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "users": [
+        {
+            "username": "ullam",
+            "oid": "ad",
+            "apn": "itaque",
+            "catalog": 12,
+            "access_duration": 3
+        }
+    ]
+}
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'https://s-biotech-router.comprehend.ibm.com/msdynamics/enroll',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {YOUR_AUTH_KEY}',
+            'Accept' =&gt; 'application/json',
+        ],
+        'json' =&gt; [
+            'users' =&gt; [
+                [
+                    'username' =&gt; 'ullam',
+                    'oid' =&gt; 'ad',
+                    'apn' =&gt; 'itaque',
+                    'catalog' =&gt; 12,
+                    'access_duration' =&gt; 3,
+                ],
+            ],
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-POSTmsdynamics-enroll">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Success&quot;,
+    &quot;status&quot;: 200,
+    &quot;data&quot;: [
+        {
+            &quot;username&quot;: &quot;username&quot;,
+            &quot;oid&quot;: &quot;oid&quot;,
+            &quot;catalog&quot;: &quot;catalog&quot;,
+            &quot;access_duration&quot;: &quot;access_duration&quot;,
+            &quot;status&quot;: &quot;status message&quot;
+        }
+    ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (400):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Bad request&quot;,
+     &quot;status&quot;: 400,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unauthorized&quot;,
+     &quot;status&quot;: 401,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unprocessable entity&quot;,
+     &quot;status&quot;: 422,
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTmsdynamics-enroll" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTmsdynamics-enroll"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTmsdynamics-enroll"></code></pre>
+</span>
+<span id="execution-error-POSTmsdynamics-enroll" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTmsdynamics-enroll"></code></pre>
+</span>
+<form id="form-POSTmsdynamics-enroll" data-method="POST"
+      data-path="msdynamics/enroll"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTmsdynamics-enroll', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTmsdynamics-enroll"
+                    onclick="tryItOut('POSTmsdynamics-enroll');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTmsdynamics-enroll"
+                    onclick="cancelTryOut('POSTmsdynamics-enroll');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTmsdynamics-enroll" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>msdynamics/enroll</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTmsdynamics-enroll" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTmsdynamics-enroll"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b><code>users</code></b>&nbsp;&nbsp;<small>object[]</small>  &nbsp;
+<br>
+<p>List of users</p>            </summary>
+                                                <p>
+                        <b><code>users[].username</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="users.0.username"
+               data-endpoint="POSTmsdynamics-enroll"
+               data-component="body" required  hidden>
+    <br>
+<p>Username</p>                    </p>
+                                                                <p>
+                        <b><code>users[].oid</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="users.0.oid"
+               data-endpoint="POSTmsdynamics-enroll"
+               data-component="body" required  hidden>
+    <br>
+<p>User OID</p>                    </p>
+                                                                <p>
+                        <b><code>users[].apn</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="users.0.apn"
+               data-endpoint="POSTmsdynamics-enroll"
+               data-component="body" required  hidden>
+    <br>
+<p>User e-mail</p>                    </p>
+                                                                <p>
+                        <b><code>users[].catalog</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="users.0.catalog"
+               data-endpoint="POSTmsdynamics-enroll"
+               data-component="body" required  hidden>
+    <br>
+<p>Catalog ID to enroll the user in</p>                    </p>
+                                                                <p>
+                        <b><code>users[].access_duration</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="users.0.access_duration"
+               data-endpoint="POSTmsdynamics-enroll"
+               data-component="body" required  hidden>
+    <br>
+<p>Access duration in days</p>                    </p>
+                                    </details>
+        </p>
+    
+    </form>
+
+            <h2 id="microsoft-dynamics-GETmsdynamics-list">Show CLMS catalog tree.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Show the catalog hierarchy.</p>
+
+<span id="example-requests-GETmsdynamics-list">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request GET \
+    --get "https://s-biotech-router.comprehend.ibm.com/msdynamics/list" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/msdynamics/list"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'https://s-biotech-router.comprehend.ibm.com/msdynamics/list',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {YOUR_AUTH_KEY}',
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-GETmsdynamics-list">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;message&quot;: &quot;Success&quot;,
+  &quot;status&quot;: 200,
+  &quot;data&quot; : [
+         {
+             &quot;id&quot;: &quot;id&quot;,
+             &quot;type&quot;: &quot;type&quot;,
+             &quot;duration&quot;: &quot;duration_in_seconds&quot;,
+             &quot;children&quot;: &quot;1&quot;,
+             &quot;custom_fields&quot;: [
+                     &quot;field1&quot;,
+                     &quot;field2&quot;
+             ],
+             &quot;container&quot;: [
+                     &quot;id&quot;: &quot;id&quot;,
+                     &quot;type&quot;: &quot;type&quot;,
+                     &quot;children&quot;: &quot;0&quot;
+             ]
+         }
+   ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (400):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Bad request&quot;,
+     &quot;status&quot;: 400,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unauthorized&quot;,
+     &quot;status&quot;: 401,
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETmsdynamics-list" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETmsdynamics-list"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETmsdynamics-list"></code></pre>
+</span>
+<span id="execution-error-GETmsdynamics-list" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETmsdynamics-list"></code></pre>
+</span>
+<form id="form-GETmsdynamics-list" data-method="GET"
+      data-path="msdynamics/list"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETmsdynamics-list', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETmsdynamics-list"
+                    onclick="tryItOut('GETmsdynamics-list');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETmsdynamics-list"
+                    onclick="cancelTryOut('GETmsdynamics-list');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETmsdynamics-list" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>msdynamics/list</code></b>
+        </p>
+                <p>
+            <label id="auth-GETmsdynamics-list" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETmsdynamics-list"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>array</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="array"
+               data-endpoint="GETmsdynamics-list"
+               data-component="url" required  hidden>
+    <br>
+<p>Array of custom fields to retrieve</p>            </p>
+                    </form>
+
+            <h2 id="microsoft-dynamics-DELETEmsdynamics-unenroll">Un-enroll users from a CLMS course.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Remove users' enrollment from a CLMS course.</p>
+
+<span id="example-requests-DELETEmsdynamics-unenroll">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request DELETE \
+    "https://s-biotech-router.comprehend.ibm.com/msdynamics/unenroll" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"users\": [
+        {
+            \"username\": \"sint\",
+            \"oid\": \"ex\",
+            \"catalog\": \"natus\"
+        }
+    ]
+}"
+</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/msdynamics/unenroll"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "users": [
+        {
+            "username": "sint",
+            "oid": "ex",
+            "catalog": "natus"
+        }
+    ]
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;delete(
+    'https://s-biotech-router.comprehend.ibm.com/msdynamics/unenroll',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {YOUR_AUTH_KEY}',
+            'Accept' =&gt; 'application/json',
+        ],
+        'json' =&gt; [
+            'users' =&gt; [
+                [
+                    'username' =&gt; 'sint',
+                    'oid' =&gt; 'ex',
+                    'catalog' =&gt; 'natus',
+                ],
+            ],
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-DELETEmsdynamics-unenroll">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Success&quot;,
+    &quot;status&quot;: 200,
+    &quot;data&quot;: [
+        {
+            &quot;username&quot;: &quot;username&quot;,
+            &quot;oid&quot;: &quot;oid&quot;,
+            &quot;catalog&quot;: &quot;catalog&quot;,
+            &quot;status&quot;: &quot;status message&quot;
+        }
+    ]
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unauthorized&quot;,
+     &quot;status&quot;: 401,
+  }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unprocessable entity&quot;,
+     &quot;status&quot;: 422,
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-DELETEmsdynamics-unenroll" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEmsdynamics-unenroll"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEmsdynamics-unenroll"></code></pre>
+</span>
+<span id="execution-error-DELETEmsdynamics-unenroll" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEmsdynamics-unenroll"></code></pre>
+</span>
+<form id="form-DELETEmsdynamics-unenroll" data-method="DELETE"
+      data-path="msdynamics/unenroll"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEmsdynamics-unenroll', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEmsdynamics-unenroll"
+                    onclick="tryItOut('DELETEmsdynamics-unenroll');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEmsdynamics-unenroll"
+                    onclick="cancelTryOut('DELETEmsdynamics-unenroll');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEmsdynamics-unenroll" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>msdynamics/unenroll</code></b>
+        </p>
+                <p>
+            <label id="auth-DELETEmsdynamics-unenroll" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="DELETEmsdynamics-unenroll"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+        <details>
+            <summary style="padding-bottom: 10px;">
+                <b><code>users</code></b>&nbsp;&nbsp;<small>object[]</small>  &nbsp;
+<br>
+<p>List of users</p>            </summary>
+                                                <p>
+                        <b><code>users[].username</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="users.0.username"
+               data-endpoint="DELETEmsdynamics-unenroll"
+               data-component="body" required  hidden>
+    <br>
+<p>Username</p>                    </p>
+                                                                <p>
+                        <b><code>users[].oid</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="users.0.oid"
+               data-endpoint="DELETEmsdynamics-unenroll"
+               data-component="body" required  hidden>
+    <br>
+<p>User OID</p>                    </p>
+                                                                <p>
+                        <b><code>users[].catalog</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="users.0.catalog"
+               data-endpoint="DELETEmsdynamics-unenroll"
+               data-component="body" required  hidden>
+    <br>
+<p>Catalog ID to enroll the user in</p>                    </p>
+                                    </details>
+        </p>
+    
+    </form>
+
+        <h1 id="user-management">User management</h1>
+
+    
+
+            <h2 id="user-management-GETusers">Get all users.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>List all currently registered user accounts.</p>
+
+<span id="example-requests-GETusers">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-bash">curl --request GET \
+    --get "https://s-biotech-router.comprehend.ibm.com/users" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "https://s-biotech-router.comprehend.ibm.com/users"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'https://s-biotech-router.comprehend.ibm.com/users',
+    [
+        'headers' =&gt; [
+            'Authorization' =&gt; 'Bearer {YOUR_AUTH_KEY}',
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+</span>
+
+<span id="example-responses-GETusers">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Name&quot;,
+            &quot;email&quot;: &quot;email@example.com&quot;
+        }
+    ],
+    &quot;meta&quot;: {
+        &quot;pagination&quot;: {
+            &quot;total&quot;: 1,
+            &quot;count&quot;: 1,
+            &quot;per_page&quot;: 20,
+            &quot;current_page&quot;: 1,
+            &quot;total_pages&quot;: 1,
+            &quot;links&quot;: {}
+        }
+    }
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+  &quot;error&quot;:
+  {
+     &quot;message&quot;: &quot;Unauthorized&quot;,
+     &quot;status&quot;: 401,
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETusers" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETusers"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETusers"></code></pre>
+</span>
+<span id="execution-error-GETusers" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETusers"></code></pre>
+</span>
+<form id="form-GETusers" data-method="GET"
+      data-path="users"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETusers', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETusers"
+                    onclick="tryItOut('GETusers');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETusers"
+                    onclick="cancelTryOut('GETusers');" hidden>Cancel
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETusers" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>users</code></b>
+        </p>
+                <p>
+            <label id="auth-GETusers" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETusers"
+                                                                data-component="header"></label>
+        </p>
+                </form>
+
+    
+
+        
+    </div>
+    <div class="dark-box">
+                    <div class="lang-selector">
+                                    <a href="#" data-language-name="bash">bash</a>
+                                    <a href="#" data-language-name="javascript">javascript</a>
+                                    <a href="#" data-language-name="php">php</a>
+                            </div>
+            </div>
+</div>
+<script>
+    $(function () {
+        var exampleLanguages = ["bash","javascript","php"];
+        setupLanguages(exampleLanguages);
+    });
+</script>
+</body>
+</html>
